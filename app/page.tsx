@@ -1,3 +1,5 @@
+"use client";
+
 export default function Home() {
   const quotes = [
     "Job's not finished.",
@@ -9,77 +11,118 @@ export default function Home() {
   const today = new Date();
   const dayOfYear = Math.floor(
     (today.getTime() - new Date(today.getFullYear(), 0, 0).getTime()) /
-      1000 /
-      60 /
-      60 /
-      24
+      1000 / 60 / 60 / 24
   );
   const quote = quotes[dayOfYear % quotes.length];
 
+  const navItems = [
+    { icon: "🏠", label: "Dashboard" },
+    { icon: "🏋️", label: "Training" },
+    { icon: "🥗", label: "Nutrition" },
+    { icon: "💚", label: "Wellness" },
+    { icon: "🔥", label: "75 Hard" },
+    { icon: "📚", label: "Reading" },
+    { icon: "🎓", label: "School" },
+    { icon: "💰", label: "Finance" },
+    { icon: "❤️", label: "Health Stats" },
+  ];
+
+  const cards = [
+    { icon: "🏋️", label: "Training", value: "No workout logged", sub: "Tap to log today" },
+    { icon: "🥗", label: "Nutrition", value: "0 / 2,500 cal", sub: "No meals logged today" },
+    { icon: "🔥", label: "75 Hard", value: "Day 1", sub: "0 / 5 tasks complete" },
+    { icon: "💰", label: "Finance", value: "$0 spent", sub: "No expenses logged today" },
+    { icon: "📚", label: "Reading", value: "No book active", sub: "Start tracking your reading" },
+    { icon: "❤️", label: "Health Stats", value: "-- steps", sub: "Sync from Apple Health" },
+  ];
+
+  const wellness = [
+    { label: "Energy", value: "--/10" },
+    { label: "Soreness", value: "--/10" },
+    { label: "Mood", value: "--/10" },
+    { label: "Sleep Quality", value: "--/10" },
+  ];
+
   return (
-    <div className="flex min-h-screen bg-[#0f0f0f] text-white">
-      <aside className="w-64 bg-[#1a1a1a] border-r border-[#2a2a2a] p-6 flex flex-col gap-2">
-        <div className="text-[#18453B] font-bold text-xl mb-8">DALLAS</div>
-        {[
-          { icon: "🏠", label: "Dashboard" },
-          { icon: "🏋️", label: "Training" },
-          { icon: "🥗", label: "Nutrition" },
-          { icon: "💚", label: "Wellness" },
-          { icon: "🔥", label: "75 Hard" },
-          { icon: "📚", label: "Reading" },
-          { icon: "🎓", label: "School" },
-          { icon: "💰", label: "Finance" },
-          { icon: "❤️", label: "Health Stats" },
-        ].map((item) => (
+    <div style={{ display: "flex", minHeight: "100vh", backgroundColor: "#0f0f0f", color: "white", fontFamily: "system-ui, sans-serif" }}>
+      
+      {/* Sidebar */}
+      <aside style={{ width: "220px", backgroundColor: "#161616", borderRight: "1px solid #2a2a2a", padding: "24px 16px", display: "flex", flexDirection: "column", gap: "4px", flexShrink: 0 }}>
+        <div style={{ color: "#18453B", fontWeight: "700", fontSize: "18px", marginBottom: "32px", letterSpacing: "2px" }}>
+          ✦ DALLAS
+        </div>
+        {navItems.map((item) => (
           <button
             key={item.label}
-            className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-[#18453B] hover:text-white transition-all text-gray-400 text-sm font-medium"
+            style={{ display: "flex", alignItems: "center", gap: "12px", padding: "10px 14px", borderRadius: "8px", border: "none", backgroundColor: "transparent", color: "#888", fontSize: "14px", fontWeight: "500", cursor: "pointer", textAlign: "left", width: "100%" }}
+            onMouseEnter={e => {
+              (e.currentTarget as HTMLButtonElement).style.backgroundColor = "#18453B";
+              (e.currentTarget as HTMLButtonElement).style.color = "white";
+            }}
+            onMouseLeave={e => {
+              (e.currentTarget as HTMLButtonElement).style.backgroundColor = "transparent";
+              (e.currentTarget as HTMLButtonElement).style.color = "#888";
+            }}
           >
-            <span>{item.icon}</span>
+            <span style={{ fontSize: "16px" }}>{item.icon}</span>
             <span>{item.label}</span>
           </button>
         ))}
       </aside>
-      <main className="flex-1 p-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-1">Welcome back, Dallas</h1>
-          <p className="text-[#18453B] text-lg font-medium">{quote}</p>
-          <p className="text-gray-500 text-sm mt-1">
-            {today.toLocaleDateString("en-US", {
-              weekday: "long",
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
+
+      {/* Main */}
+      <main style={{ flex: 1, padding: "40px", overflowY: "auto" }}>
+        
+        {/* Header */}
+        <div style={{ marginBottom: "36px" }}>
+          <h1 style={{ fontSize: "28px", fontWeight: "700", marginBottom: "6px", margin: "0 0 6px 0" }}>
+            Welcome back, Dallas 👋
+          </h1>
+          <p style={{ color: "#18453B", fontSize: "16px", fontWeight: "600", margin: "0 0 4px 0" }}>
+            &ldquo;{quote}&rdquo;
+          </p>
+          <p style={{ color: "#555", fontSize: "13px", margin: 0 }}>
+            {today.toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}
           </p>
         </div>
-        <div className="grid grid-cols-2 gap-4 mb-6">
-          {[
-            { icon: "🏋️", label: "Training", value: "No workout logged", sub: "Tap to log today" },
-            { icon: "🥗", label: "Nutrition", value: "0 / 2,500 cal", sub: "No meals logged today" },
-            { icon: "🔥", label: "75 Hard", value: "Day 1", sub: "0 / 5 tasks complete" },
-            { icon: "💰", label: "Finance", value: "$0 spent", sub: "No expenses logged today" },
-            { icon: "📚", label: "Reading", value: "No book active", sub: "Start tracking your reading" },
-            { icon: "❤️", label: "Health Stats", value: "-- steps", sub: "Sync from Apple Health" },
-          ].map((card) => (
-            <div key={card.label} className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-xl p-6">
-              <div className="text-gray-400 text-sm mb-1">{card.icon} {card.label}</div>
-              <div className="text-2xl font-bold">{card.value}</div>
-              <div className="text-gray-500 text-sm mt-1">{card.sub}</div>
+
+        {/* Cards Grid */}
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "20px" }}>
+          {cards.map((card) => (
+            <div
+              key={card.label}
+              style={{ backgroundColor: "#161616", border: "1px solid #2a2a2a", borderRadius: "12px", padding: "24px", cursor: "pointer", transition: "border-color 0.2s" }}
+              onMouseEnter={e => (e.currentTarget as HTMLDivElement).style.borderColor = "#18453B"}
+              onMouseLeave={e => (e.currentTarget as HTMLDivElement).style.borderColor = "#2a2a2a"}
+            >
+              <div style={{ color: "#666", fontSize: "12px", marginBottom: "8px", textTransform: "uppercase", letterSpacing: "1px" }}>
+                {card.icon} {card.label}
+              </div>
+              <div style={{ fontSize: "22px", fontWeight: "700", marginBottom: "6px" }}>
+                {card.value}
+              </div>
+              <div style={{ color: "#555", fontSize: "13px" }}>
+                {card.sub}
+              </div>
             </div>
           ))}
         </div>
-        <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-xl p-6">
-          <div className="text-gray-400 text-sm mb-3">💚 Today's Wellness Check</div>
-          <div className="flex gap-6">
-            {["Energy", "Soreness", "Mood", "Sleep Quality"].map((item) => (
-              <div key={item}>
-                <div className="text-gray-500 text-xs mb-1">{item}</div>
-                <div className="text-white font-bold">--/10</div>
+
+        {/* Wellness Strip */}
+        <div style={{ backgroundColor: "#161616", border: "1px solid #2a2a2a", borderRadius: "12px", padding: "24px" }}>
+          <div style={{ color: "#666", fontSize: "12px", marginBottom: "16px", textTransform: "uppercase", letterSpacing: "1px" }}>
+            💚 Today&apos;s Wellness Check
+          </div>
+          <div style={{ display: "flex", gap: "40px" }}>
+            {wellness.map((item) => (
+              <div key={item.label}>
+                <div style={{ color: "#555", fontSize: "12px", marginBottom: "4px" }}>{item.label}</div>
+                <div style={{ fontSize: "20px", fontWeight: "700", color: "#18453B" }}>{item.value}</div>
               </div>
             ))}
           </div>
         </div>
+
       </main>
     </div>
   );
